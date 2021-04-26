@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=300px, initial-scale=1.0">
+    {% load static %}
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <title>Login / Registration</title>
+</head>
+
+<body>
+    <div class="box">
+    <h1>Register here!</h1>
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form action="/user/create_user" method="post">
+        {% csrf_token %}
+        <label for="first_name">First Name:</label>
+        <input type="text" name="first_name">
+        <br>
+        <label for="last_name">Last Name:</label>
+        <input type="text" name="last_name">
+        <br>
+        <label for="email">Email:</label>
+        <input type="text" name="email">
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" name="password">
+        <br>
+        <label for="confirm_password">Confirm Password:</label>
+        <input type="password" name="confirm_password">
+        <br>
+        <button>Create User</button>
+    </form>
+</div>
+<div class="box">
+    <h1>Login Here</h1>
+    <form action="/user/login" method="post">
+        {% csrf_token %}
+        <label for="email">Email:</label>
+        <input type="text" name="email">
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" name="password">
+        <button>Log In!</button>
+    </form>
+</div>
+</body>
+
+</html>

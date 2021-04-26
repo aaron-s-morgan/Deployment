@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <title>User Dashboard</title>
+</head>
+<body>
+<div class="wrapper">
+    <h1>Hello {{logged_user.first_name}}!</h1>
+    <a href="user/logout">Logout</a>
+    <button><a href="trips/new">Create a new trip!</a></button>
+    <h1>Your Trips</h1>
+    <table class="table-responsive-md table-info table-hover" id="chart">
+        <thead>
+          <th>Destination</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Plan</th>
+          <th>Actions</th>
+        </thead>
+        <tbody>
+            {% for trip in trips %}
+            {% if trip.creator.id == request.session.logged_user %}
+            <tr>
+            <div class="row">
+              <td><a href="trips/{{trip.id}}">{{trip.destination}}</a></td>
+              <td>{{ trip.start_date|date:'Y-m-d'}}</td>
+              <td>{{ trip.end_date|date:'Y-m-d'}}</td>
+              <td>{{trip.plan}}</td>
+              <td><a href="trips/delete/{{trip.id}}">Remove |</a><a href="trips/edit/{{trip.id}}"> Edit</a></td>
+            </div>
+          </tr>
+            {% endif %}
+            {% endfor %}
+            {% for trip in myself.trips.all %}
+            <tr>
+            <div class="row">
+              <td><a href="trips/{{trip.id}}">{{trip.destination}}</a></td>
+              <td>{{ trip.start_date|date:'Y-m-d'}}</td>
+              <td>{{ trip.end_date|date:'Y-m-d'}}</td>
+              <td>{{trip.plan}}</td>
+              <td><a href="unjoin/{{trip.id}}">Cancel </a></td>
+            </div>
+          </tr>
+            {% endfor %}
+        </tbody>
+
+
+
+      </table>
+
+      <h1>Other People's Trips</h1>
+      <table class="table-responsive-md table-info table-hover" id="chart">
+          <thead>
+            <th>Destination</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Plan</th>
+            <th>Actions</th>
+          </thead>
+          <tbody>
+            {% for trip in trips %}
+            {% if trip.creator.id != request.session.logged_user %}
+            {% if trip in myself.trips.all %}
+            {% else %}
+            <tr>
+              <div class="row">
+                <td><a href="trips/{{trip.id}}">{{trip.destination}}</a></td>
+                <td>{{ trip.start_date|date:'Y-m-d'}}</td>
+                <td>{{ trip.end_date|date:'Y-m-d'}}</td>
+                <td>{{trip.plan}}</td>
+                <td><a href="join/{{trip.id}}">Join </a></td>
+              </div>
+            </tr>
+              {% endif %}
+            {% endif %}
+                    
+
+              {% endfor %}
+      
+          </tbody>
+        </table>
+
+    </div>
+    </body>
+    </html>

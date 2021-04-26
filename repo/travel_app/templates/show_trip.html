@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Trip info</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Trip info" />
+    {% load static %}
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <div class="box">
+      <h1>Hello {{logged_user.first_name}}! Read about this Trip!</h1>
+      <div class="container">
+        <h1>{{ trip.destination }}</h1>
+        <p><strong>Start Date:</strong>{{ trip.start_date|date:'Y-m-d'}}</p>
+        <p><strong>End Date:</strong>{{ trip.end_date|date:'Y-m-d'}}</p>
+        <p><strong>Plan:</strong> {{trip.plan}}</p>
+        <p><strong>Creator:</strong>{{trip.creator.first_name}}</p>
+      </div>
+      <h2>Joined By:</h2>
+      <ul>
+        {% for fav in trip.travelers.all %}
+        <li>{{fav.first_name}} {{fav.last_name}}</li>
+        {% endfor %}
+    </ul>
+    </div>
+    <a href="/dashboard">Dashboard |</a>
+    <a href="/user/logout">Logout</a>
+  </body>
+</html>

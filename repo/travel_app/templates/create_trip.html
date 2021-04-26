@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Create a Trip</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Create Trip" />
+    {% load static %}
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+  <body>
+    <h1>Hello {{logged_user.first_name}}! Create a trip!</h1>
+      {% if messages %}
+      <ul class="messages">
+          {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+      </ul>
+      {% endif %}
+      <div class="box">
+      <form action="/trips/submit" method="POST">
+        {% csrf_token %}
+        Destination: <input type="text" name="destination" />
+        Start Date: <input type="date" name="start_date" required/>
+        End Date: <input type="date" name="end_date" required/>
+        Plan: <input type="text" name="plan" />
+        <button><a href="/dashboard"> Cancel</a></button>
+        <button input type="submit" value="Create Trip">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>
